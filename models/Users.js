@@ -1,12 +1,14 @@
-const { Schema, model } = require("mongoose");
+const { Schema,model } = require("mongoose");
+const mongoose = require('mongoose')
 
 const UserSchema = Schema(
   {
     _id: {
-      type: ObjectId,
+      type: Schema.Types.ObjectId,
     },
     username: {
       type: String,
+      require: true,
     },
     email: {
       type: String,
@@ -17,6 +19,9 @@ const UserSchema = Schema(
       type: String,
       require: true,
     },
+    bio:{
+      type: String,
+    },
     avatar: {
       type: String,
     },
@@ -26,4 +31,6 @@ const UserSchema = Schema(
   }
 );
 
-module.exports = model(User, UserSchema)
+const User = model('users', UserSchema)
+
+module.exports = User

@@ -1,9 +1,20 @@
 const mongoose = require("mongoose");
 
-const dbConnect = () => {
-  const DB_URI = process.env.DB_URI;
-  mongoose.connect(DB_URI).then(()=>console.log('Conectada'));
+const {
+  DB_URI,
+  DB_NAME
+} = process.env 
 
-};
 
-module.exports = dbConnect;
+const dbConnect = async () => {
+  try {
+    mongoose.connect(`${ DB_URI }/${ DB_NAME }`);
+    console.log('[INFO] MONGODB is connected');
+  } catch (error) {
+    console.log(error);
+    throw new Error('[ERROR] Is not possible initialize MongoDB connection :( ');
+  }
+}
+
+module.exports = dbConnect
+

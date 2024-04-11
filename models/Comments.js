@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require('mongoose')
 
-const ProductSchema = Schema(
+const CommentSchema = Schema(
   {
     _id: {
       type: ObjectId,
@@ -22,4 +23,4 @@ const ProductSchema = Schema(
   }
 );
 
-module.exports = model(Product, ProductSchema)
+module.exports = model('comments', CommentSchema)
