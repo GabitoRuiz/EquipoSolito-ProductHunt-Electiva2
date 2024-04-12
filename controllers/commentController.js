@@ -22,4 +22,17 @@ async function createReview(req, res) {
   }
 }
 
-module.exports = { createReview };
+async function getProductReviews(req, res) {
+  try {
+      const productId = req.params.id;
+
+      // Buscar todas las reseñas del producto por su ID
+      const reviews = await Review.find({ productId });
+
+      res.json(reviews);
+  } catch (error) {
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+module.exports = { createReview, getProductReviews };
