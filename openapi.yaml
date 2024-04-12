@@ -1,0 +1,228 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Usuarios y Productos
+  description: API para registrar usuarios, gestionar productos y comentarios.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /users/signup:
+    post:
+      summary: Registrarse
+      description: Permite a los usuarios registrarse en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      responses:
+        '201':
+          description: Usuario registrado correctamente
+        '400':
+          description: Error en la solicitud (p. ej., datos de registro incorrectos)
+        '500':
+          description: Error interno del servidor
+  /users/login:
+    post:
+      summary: Iniciar sesión
+      description: Permite a los usuarios iniciar sesión en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Sesión iniciada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+        '401':
+          description: Credenciales inválidas
+        '500':
+          description: Error interno del servidor
+  /products:
+    post:
+      summary: Publicar un nuevo producto
+      description: Permite a los usuarios publicar un nuevo producto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Producto publicado correctamente
+        '401':
+          description: No autorizado (token de autenticación no proporcionado o inválido)
+        '500':
+          description: Error interno del servidor
+  /products/{id}:
+    get:
+      summary: Obtener detalles de un producto
+      description: Devuelve los detalles de un producto específico, incluyendo calificaciones y reseñas.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '200':
+          description: Detalles del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      summary: Actualizar un producto
+      description: Permite a los usuarios actualizar su propio producto.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Producto actualizado correctamente
+        '401':
+          description: No autorizado (token de autenticación no proporcionado o inválido)
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar un producto
+      description: Permite a los usuarios eliminar su propio producto.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '200':
+          description: Producto eliminado correctamente
+        '401':
+          description: No autorizado (token de autenticación no proporcionado o inválido)
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor
+  /products/search:
+    get:
+      summary: Buscar productos
+      description: Permite buscar productos por diferentes criterios.
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Categoría del producto
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Nombre del producto (búsqueda por coincidencia parcial)
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+          description: Etiquetas del producto
+        - in: query
+          name: rating
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: Calificación mínima del producto
+      responses:
+        '200':
+          description: Lista de productos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+components:
+  schemas:
+    Signup:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Nombre de usuario
+        email:
+          type: string
+          format: email
+          description: Correo electrónico
+        password:
+          type: string
+          format: password
+          description: Contraseña
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: Correo electrónico
+        password:
+          type: string
+          format: password
+          description: Contraseña
+    Auth:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token de autenticación
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        url:
+          type: string
+          description: URL del producto
+        tags:
+          type: array
+          items:
+            type: string
+          description: Etiquetas del producto
+    Comment:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID de la reseña
+        productId:
+          type: string
+          description: ID del producto al que se realiza la reseña
+        userId:
+          type: string
+          description: ID del usuario que realizó la reseña
+        content:
+          type: string
+          description: Contenido de la reseña
