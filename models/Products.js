@@ -11,11 +11,11 @@ const ProductSchema = Schema(
     },
     description: {
       type: String,
-      require: true,
+      required: true,
     },
     url: {
       type: String,
-      require: true,
+      required: true,
     },
     tags: {
       type: [String],

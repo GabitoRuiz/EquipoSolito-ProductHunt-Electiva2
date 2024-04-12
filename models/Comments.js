@@ -4,18 +4,18 @@ const mongoose = require('mongoose')
 const CommentSchema = Schema(
   {
     _id: {
-      type: ObjectId,
+      type: Schema.Types.ObjectId,
     },
     productId: {
-      type: ObjectId,
+      type: { type: Schema.Types.ObjectId, ref: 'Product' },
     },
     userId: {
-      type: ObjectId,
-      require: true,
+      type: { type: Schema.Types.ObjectId, ref: 'User' },
+      required: true,
     },
     content: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   {
@@ -23,4 +23,5 @@ const CommentSchema = Schema(
   }
 );
 
-module.exports = model('comments', CommentSchema)
+const Comment = model('comments', CommentSchema)
+
