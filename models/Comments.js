@@ -11,11 +11,9 @@ const CommentSchema = Schema(
     },
     userId: {
       type: { type: Schema.Types.ObjectId, ref: 'User' },
-      required: true,
     },
     content: {
       type: String,
-      required: true,
     },
   },
   {

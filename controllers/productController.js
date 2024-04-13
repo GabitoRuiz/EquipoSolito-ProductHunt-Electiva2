@@ -1,5 +1,5 @@
 const Product = require("../models/Products");
-const Product = require("../models/Comments");
+const Review = require("../models/Comments");
 
 async function createProduct(req, res) {
   try {
@@ -99,8 +99,6 @@ async function rateProduct(req, res) {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 }
-
-module.exports = {};
 
 module.exports = {
   createProduct,

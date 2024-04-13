@@ -14,6 +14,7 @@ dbConnect();
 // app routes
 app.use('/api/v1', require("./routes/userRoutes"))
 app.use('/api/v1', require("./routes/productRoutes"))
+app.use('/api/v1', require("./routes/commentRoutes"))
 
 app.listen(port, () => {
   console.log(`[INFO] SERVER RUNNING AT PORT ${port}`);

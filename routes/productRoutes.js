@@ -5,9 +5,9 @@ const { authenticateToken } = require('../middlewares/auth');
 const { validateProductData } = require('../middlewares/product');
 
 router.post('/newproduct', authenticateToken  ,validateProductData, createProduct);
-router.put('/products/:id', updateProduct);
-router.delete('/products/:id', deleteProduct);
-router.get('/products/:id', searchProducts);
+router.put('/updateproducts/:id', updateProduct);
+router.delete('/deleteproducts/:id', deleteProduct);
+router.get('/searchproducts/:id', searchProducts);
 router.post('/products/:id/rate', authenticateToken, rateProduct);
 
 module.exports = router;
