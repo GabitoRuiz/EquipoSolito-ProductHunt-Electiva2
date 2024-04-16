@@ -1,16 +1,20 @@
 const { Schema, model } = require("mongoose");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const CommentSchema = Schema(
   {
-    _id: {
-      type: Schema.Types.ObjectId,
-    },
+    // _id: {
+    //   type: Schema.Types.ObjectId,
+    // },
     productId: {
-      type: { type: Schema.Types.ObjectId, ref: 'Product' },
+      type: { type: Schema.Types.ObjectId, ref: "Product" },
     },
     userId: {
-      type: { type: Schema.Types.ObjectId, ref: 'User' },
+      type: { type: Schema.Types.ObjectId, ref: "User" },
+    },
+    rating: {
+      type: Number,
+      required : true,
     },
     content: {
       type: String,
@@ -21,5 +25,4 @@ const CommentSchema = Schema(
   }
 );
 
-const Comment = model('comments', CommentSchema)
-
+const Comment = model("comments", CommentSchema);

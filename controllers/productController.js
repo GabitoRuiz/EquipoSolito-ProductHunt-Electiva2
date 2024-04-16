@@ -1,5 +1,4 @@
 const Product = require("../models/Products");
-const Review = require("../models/Comments");
 
 async function createProduct(req, res) {
   try {
@@ -16,10 +15,9 @@ async function createProduct(req, res) {
 
 async function updateProduct(req, res) {
   try {
-    const userId = req.user.userId;
     const productId = req.params.id;
     // Verificar si el producto pertenece al usuario
-    const product = await Product.findOne({ _id: productId, userId });
+    const product = await Product.findOne({ _id: productId });
     if (!product) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }
@@ -38,15 +36,12 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
   try {
-    const userId = req.user.userId;
     const productId = req.params.id;
-    // Verificar si el producto pertenece al usuario
-    const product = await Product.findOne({ _id: productId, userId });
-    if (!product) {
+    // Eliminar el producto por su ID
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    if (!deletedProduct) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }
-    // Eliminar el producto
-    await product.remove();
     res.json({ message: "Producto eliminado correctamente" });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -72,38 +67,10 @@ async function searchProducts(req, res) {
   }
 }
 
-async function rateProduct(req, res) {
-  try {
-    const userId = req.user.userId;
-    const productId = req.params.id;
-    const { content } = req.body;
-
-    // Verificar si el usuario ya ha calificado este producto
-    const existingReview = await Review.findOne({ userId, productId });
-    if (existingReview) {
-      return res
-        .status(400)
-        .json({ error: "El usuario ya ha calificado este producto" });
-    }
-    // Crear una nueva reseña
-    const newReview = new Review({
-      userId,
-      productId,
-      content,
-    });
-    // Guardar la nueva reseña en la base de datos
-    await newReview.save();
-
-    res.status(201).json({ message: "Producto calificado correctamente" });
-  } catch (error) {
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-}
 
 module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
   searchProducts,
-  rateProduct,
 };

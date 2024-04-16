@@ -2,13 +2,11 @@ const Review = require("../models/Comments");
 
 async function createReview(req, res) {
   try {
-    const userId = req.user.userId;
-    const productId = req.params.id;
+    const productId = req.params._id;
     const { content } = req.body;
 
     // Crear una nueva reseña
     const newReview = new Review({
-      userId,
       productId,
       content,
     });
