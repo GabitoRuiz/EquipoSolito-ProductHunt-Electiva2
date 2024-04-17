@@ -7,22 +7,18 @@ const CommentSchema = Schema(
     //   type: Schema.Types.ObjectId,
     // },
     productId: {
-      type: { type: Schema.Types.ObjectId, ref: "Product" },
+      type: { type: Schema.Types.ObjectId, ref: "products" },
     },
     userId: {
-      type: { type: Schema.Types.ObjectId, ref: "User" },
-    },
-    rating: {
-      type: Number,
-      required : true,
-    },
-    content: {
-      type: String,
-    },
+      type: { type: Schema.Types.ObjectId, ref: "users" },
+    },  
+    rating: Number,
+    content:String,
+
   },
   {
     timestamps: true, // CreatedAt , updatedAt
   }
 );
 
-const Comment = model("comments", CommentSchema);
+module.exports = model("comments", CommentSchema);

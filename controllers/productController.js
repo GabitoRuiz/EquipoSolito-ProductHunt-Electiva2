@@ -3,11 +3,12 @@ const Product = require("../models/Products");
 async function createProduct(req, res) {
   try {
     const { name, description, url, tags } = req.body;
-    const userId = req.user._id;
+    const userId = req.user.id;
     const newProduct = new Product({ name, description, url, tags, userId });
 
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    const productWithUser = await Product.findOne({ _id: savedProduct._id }).populate('userId');
+    res.status(201).json({ message: "Producto creado correctamente", product: productWithUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -66,7 +67,6 @@ async function searchProducts(req, res) {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 }
-
 
 module.exports = {
   createProduct,

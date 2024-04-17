@@ -3,31 +3,17 @@ const mongoose = require('mongoose')
 
 const UserSchema = Schema(
   {
-    // _id: {
-    //   type: Schema.Types.ObjectId,
-    // },
-    username: {
-      type: String,
-    },
-    email: {
-      type: String,
-      unique: true,
-    },
-    password: {
-      type: String,
-    },
-    bio:{
-      type: String,
-    },
-    avatar: {
-      type: String,
-    },
+    username: String,
+    email: String,
+    password: String,
+    bio: String,
+    avatar:  String,
   },
   {
     timestamps: true, // CreatedAt , updatedAt
   }
 );
 
-const User = model('users', UserSchema)
+module.exports = model('users', UserSchema)
 
-module.exports = User
+

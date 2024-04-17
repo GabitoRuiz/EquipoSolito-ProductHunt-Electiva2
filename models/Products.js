@@ -1,27 +1,21 @@
 const { Schema, model } = require("mongoose");
 const mongoose = require('mongoose')
 
+
+
 const ProductSchema = Schema(
   {
-    name: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
-    tags: {
-      type: [String],
-    },
-    userId: { type: Schema.Types.ObjectId, ref: 'User' }
+    name: String,
+    description: String,
+    url: String,
+    tags:  [String],
+    userId: { type: Schema.Types.ObjectId, ref: 'users' }
   },
   {
     timestamps: true, // CreatedAt , updatedAt
   }
 );
 
-const Product = model('products', ProductSchema);
+module.exports = model('products', ProductSchema);
 
-module.exports = Product
+
